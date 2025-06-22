@@ -1,0 +1,7 @@
+.git
+.next
+node_modules
+package*.json
+*.env*
+*.html
+README.md
