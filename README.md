@@ -1,13 +1,13 @@
 # Lemmata Collator for velut
 
-I will use this when refreshing data in my Latin dictionary, [velut](https://www.github.com/DuncanRitchie/velut), which involves running some JavaScript files in Node.
+I use this when refreshing data in my Latin dictionary, [velut](https://www.github.com/DuncanRitchie/velut), which involves running some JavaScript files in Node.
 An earlier step in the process is running the [Inflector](https://www.github.com/DuncanRitchie/velut-inflector), to generate a Json file on my hard disk.
 The Lemmata Collator reads this Json file and writes a text file to my hard disk.
 This text file will then be used by the [Word Data Generator](https://www.github.com/DuncanRitchie/velut-word-data-generator).
 The output of the Inflector and the Word Data Generator will be imported into the MongoDB database that the [velut website](https://www.velut.co.uk) uses.
 
 _If you’re not me, you’re unlikely to have much use for the Lemmata Collator._
-_And not even I am using it on the velut website yet, because I haven’t finished checking the output of the Inflector and because I haven’t yet configured the Word Data Generator to read the Lemma Collator’s output._
+_And not even I am using it in production on the velut website yet._
 
 ## Input format
 
