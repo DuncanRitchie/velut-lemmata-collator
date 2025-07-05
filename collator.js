@@ -28,36 +28,65 @@ function convertParsingObjectToFormsSet(parsingObject) {
 	return new Set(convertParsingObjectToFormsArray(parsingObject));
 }
 
-function getFormsForOneLemma(lemmaObject) {
-	const formsSet = convertParsingObjectToFormsSet(lemmaObject.Forms);
+function getFormsForOneLemmaAndEnclitic(lemmaObject, enclitic) {
+	const formsSet = convertParsingObjectToFormsSet(lemmaObject.Forms[enclitic]);
 	const formsWithLemma = [];
 	formsSet.forEach((form) => {
-		formsWithLemma.push({ form: form, lemma: lemmaObject.Lemma });
+		formsWithLemma.push({
+			form: form,
+			lemma: lemmaObject.Lemma,
+			enclitic: enclitic,
+		});
 	});
 	return formsWithLemma;
+}
+
+const enclitics = ['unencliticized', 'ne', 'que', 've'];
+
+function getFormsForOneLemma(lemmaObject) {
+	const formsSets = {};
+	enclitics
+		.filter((enclitic) => lemmaObject.Forms[enclitic])
+		.forEach(
+			(enclitic) =>
+				(formsSets[enclitic] = getFormsForOneLemmaAndEnclitic(
+					lemmaObject,
+					enclitic,
+				)),
+		);
+	return formsSets;
 }
 
 function getFormsForSeveralLemmata(lemmaObjects) {
 	const formsObject = {};
 	lemmaObjects.forEach((lemmaObject) => {
 		const forms = getFormsForOneLemma(lemmaObject);
-		forms.forEach((formAndLemma) => {
-			if (formsObject[formAndLemma.form]) {
-				// console.log(`formsObject already has ${formAndLemma.}`)
-				formsObject[formAndLemma.form].push(formAndLemma.lemma);
-			} else {
-				formsObject[formAndLemma.form] = [formAndLemma.lemma];
-			}
-		});
+		enclitics
+			.filter((enclitic) => forms[enclitic])
+			.forEach((enclitic) => {
+				forms[enclitic].forEach((formAndLemma) => {
+					if (formsObject[formAndLemma.form]) {
+						// console.log(`formsObject already has ${formAndLemma.}`)
+						formsObject[formAndLemma.form].Lemmata.push(formAndLemma.lemma);
+					} else {
+						formsObject[formAndLemma.form] = {
+							Lemmata: [formAndLemma.lemma],
+							Enclitic: enclitic,
+						};
+					}
+				});
+			});
 	});
 	return formsObject;
 }
 
 function convertToText(outputAsObject) {
 	let output = '';
-	Object.entries(outputAsObject).forEach(([word, lemmata]) => {
-		// console.log({ word, lemmata });
-		const newLineOfOutput = `${word}	${lemmata.join(' ')}\n`;
+	Object.entries(outputAsObject).forEach(([word, lemmataAndEnclitic]) => {
+		// console.log({ word, lemmataAndEnclitic });
+		const newLineOfOutput = `${word}	${lemmataAndEnclitic.Lemmata.join(' ')}	${
+			lemmataAndEnclitic.Enclitic
+		}\n`;
 		output = output + newLineOfOutput;
 	});
 	return output;
