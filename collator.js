@@ -28,6 +28,12 @@ function convertParsingObjectToFormsSet(parsingObject) {
 	return new Set(convertParsingObjectToFormsArray(parsingObject));
 }
 
+/**
+ * Creates an array of forms that share a lemma and share an enclitic.
+ * @param {object} lemmaObject Eg {Lemma: 'fūlmārus', Forms: {unencliticized: { singular: ['fūlmārus'], plural: 'fūlmārī']}}}
+ * @param {string} enclitic Any one member of the `enclitics` array, ['unencliticized', 'ne' , 'que', 've']
+ * @returns Eg [{form: 'fūlmārus', lemma: 'fūlmārus', enclitic: 'unencliticized'}, {form: 'fūlmāre', lemma: 'fūlmārus', enclitic: 'unencliticized'}]
+ */
 function getFormsForOneLemmaAndEnclitic(lemmaObject, enclitic) {
 	const formsSet = convertParsingObjectToFormsSet(lemmaObject.Forms[enclitic]);
 	const formsWithLemma = [];
@@ -43,6 +49,11 @@ function getFormsForOneLemmaAndEnclitic(lemmaObject, enclitic) {
 
 const enclitics = ['unencliticized', 'ne', 'que', 've'];
 
+/**
+ * Creates an object containing arrays of forms that share a lemma, grouped by enclitic.
+ * @param {object} lemmaObject Eg {Lemma: 'fūlmārus', Forms: {unencliticized: { singular: ['fūlmārus'], plural: 'fūlmārī']}}}
+ * @returns Eg {unencliticized: [{form: 'fūlmārus', lemma: 'fūlmārus', enclitic: 'unencliticized'}, {form: 'fūlmāre', lemma: 'fūlmārus', enclitic: 'unencliticized'}]}
+ */
 function getFormsForOneLemma(lemmaObject) {
 	const formsSets = {};
 	enclitics
@@ -57,6 +68,11 @@ function getFormsForOneLemma(lemmaObject) {
 	return formsSets;
 }
 
+/**
+ * Transforms an array of lemma objects (containing forms information) into an object whose keys are all the forms.
+ * @param {object[]} lemmaObjects Eg [{Lemma: 'fūlmārus', Forms: {...}}, {Lemma: 'avis', Forms: {...}}]
+ * @returns An object where each key is a Latin word and the corresponding value is an object containing the word’s lemmata and the enclitic on the word.
+ */
 function getFormsForSeveralLemmata(lemmaObjects) {
 	const formsObject = {};
 	lemmaObjects.forEach((lemmaObject) => {
