@@ -52,7 +52,7 @@
 				<a href="https://www.velut.co.uk/">velut</a> is my Latin rhyming dictionary.
 				All the data for this are stored in Json files on my computer.
 				For example, I have a list of lemmata (dictionary headwords), stored as Json objects that include the inflected forms for each lemma.
-				The purpose of the Lemmata Collator is to read from this list of lemmata, transform it into a simple list of words and the lemmata that each word can be a form of, and write that to my hard disk for further processing.
+				The purpose of the Lemmata Collator is to read from this list of lemmata, transform it into a simple list of words and the lemmata that each word can be a form of (as well as the enclitic that may be on the end of each word), and write that to my hard disk for further processing.
 				I do this by running <a href="https://github.com/DuncanRitchie/velut-lemmata-collator/blob/main/collator.js">the collator.js script</a> in Node.
 			</p>
 
@@ -787,6 +787,11 @@
 			</details>
 
 
+			<h3>Output format</h3>
+
+			<p>
+				Each line of the output will consist of a word; followed by a tab; followed by the lemmata that the word can be a form of (separated by spaces); followed by a tab; followed by one of “unencliticized”, “ne”, “que”, “ve” (depending on the enclitic that ends the word).
+			</p>
 
 			<h3>The velut Excel file</h3>
 

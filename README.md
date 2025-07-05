@@ -40,18 +40,20 @@ The Lemmata Collator will not work if the input file is not exactly as described
 
 ## Output format
 
-The output is a .txt file where each line consists of a word, a tab character, and the (space-separated) list of lemmata that the word can be a form of.
+The output is a .txt file where each line consists of a word, a tab character, the (space-separated) list of lemmata that the word can be a form of, a tab character, and the enclitic at the end of the word (or “unencliticized” if there’s none).
 For example:
 
 ```txt
-exemplum	exemplum
-exemplī	exemplum
-exempla	exemplum
-exemplōrum	exemplum
-porta	porta
-portās	porta portō
-portō	portō
-portat	portō
+exemplum	exemplum	unencliticized
+exemplī	exemplum	unencliticized
+exempla	exemplum	unencliticized
+exemplōrum	exemplum	unencliticized
+exemplumne	exemplum	ne
+exemplīne	exemplum	ne
+porta	porta	unencliticized
+portās	porta portō	unencliticized
+portō	portō	unencliticized
+portat	portō	unencliticized
 ```
 
 The words are in the order found in the input file.
