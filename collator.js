@@ -82,8 +82,15 @@ function getFormsForSeveralLemmata(lemmaObjects) {
 			.forEach((enclitic) => {
 				forms[enclitic].forEach((formAndLemma) => {
 					if (formsObject[formAndLemma.form]) {
-						// console.log(`formsObject already has ${formAndLemma.}`)
-						formsObject[formAndLemma.form].Lemmata.push(formAndLemma.lemma);
+						if (
+							formsObject[formAndLemma.form].Lemmata.includes(
+								formAndLemma.lemma,
+							)
+						) {
+							// Do nothing if the lemma has already been matched to the word.
+						} else {
+							formsObject[formAndLemma.form].Lemmata.push(formAndLemma.lemma);
+						}
 					} else {
 						formsObject[formAndLemma.form] = {
 							Lemmata: [formAndLemma.lemma],
@@ -96,10 +103,39 @@ function getFormsForSeveralLemmata(lemmaObjects) {
 	return formsObject;
 }
 
+/**
+ * Sorts an array of lemmata in-place.
+ * @param {string[]} lemmata
+ * @param {string} word The word that belongs to the lemmata
+ */
+function sortLemmata(lemmata, word) {
+	lemmata.sort((a, b) => {
+		// If the lemma is the word, it should be the foremost lemma.
+		if (a === word || a.startsWith(word + '[')) {
+			return -1;
+		}
+		if (b === word || b.startsWith(word + '[')) {
+			return 1;
+		}
+		// If a lemma is longer than another lemma, the longer comes before the shorter.
+		if (a.length < b.length) {
+			return 1;
+		}
+		if (b.length < a.length) {
+			return -1;
+		}
+		// Otherwise, lemmata should be in alphabetical order.
+		if (a > b) {
+			return 1;
+		}
+		return -1;
+	});
+}
+
 function convertToText(outputAsObject) {
 	let output = '';
 	Object.entries(outputAsObject).forEach(([word, lemmataAndEnclitic]) => {
-		// console.log({ word, lemmataAndEnclitic });
+		sortLemmata(lemmataAndEnclitic.Lemmata, word);
 		const newLineOfOutput = `${word}	${lemmataAndEnclitic.Lemmata.join(' ')}	${
 			lemmataAndEnclitic.Enclitic
 		}\n`;
