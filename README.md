@@ -7,7 +7,6 @@ This text file will then be used by the [Word Data Generator](https://www.github
 The output of the Inflector and the Word Data Generator will be imported into the MongoDB database that the [velut website](https://www.velut.co.uk) uses.
 
 _If you’re not me, you’re unlikely to have much use for the Lemmata Collator._
-_And not even I am using it in production on the velut website yet._
 
 ## Input format
 
